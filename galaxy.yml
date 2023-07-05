@@ -1,0 +1,10 @@
+namespace: WildDogOne
+name: elasticsearch_kibana
+version: 1.0.0
+readme: README.md
+description: Collection for managing Elasticsearch security.
+license: NONE
+authors:
+  - Linus
+repository: https://github.com/WildDogOne/ansible_elasticsearch_kibana
+

@@ -1,0 +1,14 @@
+- name: Manage Kibana Dataview
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Manage Kibana Dataview
+      elasticsearch_security_user:
+        state: present
+        kb_url: http://localhost:5601
+        kb_user: admin
+        kb_pass: password
+        dv_name: test_data_view
+        dv_title: logs-test-*
+        dv_timeFieldName: @timestamp
