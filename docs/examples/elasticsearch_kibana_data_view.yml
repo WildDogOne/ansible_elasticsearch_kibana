@@ -11,4 +11,4 @@
         kb_pass: password
         dv_name: test_data_view
         dv_title: logs-test-*
-        dv_timeFieldName: @timestamp
+        dv_timeFieldName: "@timestamp"

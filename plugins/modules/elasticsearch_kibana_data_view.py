@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from ansible.module_utils.basic import AnsibleModule
-from classes.kibana import kibana
+from plugins.modules.classes.kibana import kibana
 
 DOCUMENTATION = """
 ---
