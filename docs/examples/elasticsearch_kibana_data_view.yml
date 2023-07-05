@@ -4,8 +4,9 @@
 
   tasks:
     - name: Manage Kibana Dataview
-      elasticsearch_security_user:
+      WildDogOne.elasticsearch_kibana.elasticsearch_kibana_data_view:
         state: present
+        force: yes
         kb_url: http://localhost:5601
         kb_user: admin
         kb_pass: password
