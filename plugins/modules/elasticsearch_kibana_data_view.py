@@ -117,7 +117,7 @@ def main():
                 }
                 kb.create_dataview(dataview=pattern_json)
                 module.exit_json(
-                    changed=True, msg=f"Dataview {dv_name} created successfully."
+                    changed=True, msg=f"Dataview {dv_name} updated successfully."
                 )
             else: # if force is false, exit with no change
                 module.exit_json(
