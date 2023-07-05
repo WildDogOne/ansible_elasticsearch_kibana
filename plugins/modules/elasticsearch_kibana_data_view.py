@@ -135,7 +135,7 @@ def main():
                 changed=True, msg=f"Dataview {dv_name} created successfully."
             )
     elif state == "absent":
-        dvid = kb.get_dataview(dataview_id="OPNsense")
+        dvid = kb.get_dataview(dataview_id=dv_name)
         if dvid:
             kb.delete_dataview(dataview_id=dvid)
             module.exit_json(
