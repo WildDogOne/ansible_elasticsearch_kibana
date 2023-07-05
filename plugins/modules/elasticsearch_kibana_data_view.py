@@ -134,7 +134,7 @@ def main():
             module.exit_json(
                 changed=True, msg=f"Dataview {dv_name} created successfully."
             )
-    elif state == "absent":
+    elif state == "absent": # if state is absent, delete the dataview
         dvid = kb.get_dataview(dataview_id=dv_name)
         if dvid:
             kb.delete_dataview(dataview_id=dvid)
