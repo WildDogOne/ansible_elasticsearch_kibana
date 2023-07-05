@@ -105,21 +105,47 @@ def main():
         )
     else:
         kb = kibana(base_url=kb_url, username=kb_user, password=kb_pass)
-
-    existing_dataview = kb.get_dataview(dataview_id=dv_name)
-    if existing_dataview:
-        module.exit_json(
-            changed=False,
-            msg=f"Dataview {dv_name} already exists.",
-        )
-    else:
-        pattern_json = {
-            "name": dv_name,
-            "title": dv_title,
-            "timeFieldName": dv_timeFieldName,
-        }
-        kb.create_dataview(dataview=pattern_json)
-        module.exit_json(changed=True, msg=f"Dataview {dv_name} {state}d successfully.")
+    if state == "present":
+        existing_dataview = kb.get_dataview(dataview_id=dv_name)
+        if existing_dataview:
+            if force: # if force is true, delete the existing dataview and create a new one
+                kb.delete_dataview(dataview_id=existing_dataview)
+                pattern_json = {
+                    "name": dv_name,
+                    "title": dv_title,
+                    "timeFieldName": dv_timeFieldName,
+                }
+                kb.create_dataview(dataview=pattern_json)
+                module.exit_json(
+                    changed=True, msg=f"Dataview {dv_name} created successfully."
+                )
+            else: # if force is false, exit with no change
+                module.exit_json(
+                    changed=False,
+                    msg=f"Dataview {dv_name} already exists.",
+                )
+        else: # if dataview doesn't exist, create a new one
+            pattern_json = {
+                "name": dv_name,
+                "title": dv_title,
+                "timeFieldName": dv_timeFieldName,
+            }
+            kb.create_dataview(dataview=pattern_json)
+            module.exit_json(
+                changed=True, msg=f"Dataview {dv_name} created successfully."
+            )
+    elif state == "absent":
+        dvid = kb.get_dataview(dataview_id="OPNsense")
+        if dvid:
+            kb.delete_dataview(dataview_id=dvid)
+            module.exit_json(
+                changed=True, msg=f"Dataview {dv_name} removed successfully."
+            )
+        else:
+            module.exit_json(
+                changed=False,
+                msg=f"Dataview {dv_name} doesn't exist. No change needed",
+            )
 
 
 if __name__ == "__main__":
