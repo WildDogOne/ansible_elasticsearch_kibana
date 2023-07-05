@@ -2,6 +2,7 @@
 
 from ansible.module_utils.basic import AnsibleModule
 from plugins.modules.classes.kibana import kibana
+import os
 
 DOCUMENTATION = """
 ---
@@ -88,6 +89,7 @@ def main():
     )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
+    print(os.getcwd())
 
     state = module.params["state"]
     kb_url = module.params["kb_url"]
