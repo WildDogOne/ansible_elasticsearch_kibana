@@ -1,0 +1,15 @@
+- name: Manage Kibana Dataview
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Install pfsense package
+      register: elk
+      ignore_errors: yes
+      WildDogOne.elasticsearch_kibana.elasticsearch_fleet_package:
+        kb_url: http://localhost:5601
+        kb_user: admin
+        kb_pass: password
+        package_name: "pfsense"
+        tls_verify: False
+        state: present

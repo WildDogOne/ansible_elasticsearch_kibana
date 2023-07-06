@@ -8,13 +8,16 @@ The "Elasticsearch Kibana" collection provides Ansible modules to manage Kibana.
 
 This module allows you to manage Elasticsearch kibana users. It can create, update, or delete users.
 
+### elasticsearch_fleet_package
 
-> This module requires the `python-kibana` Python library to be installed.
-``pip install git+https://github.com/WildDogOne/python-kibana.git``
+This module allows you to manage Fleet Integrations. It can create, update, or delete installed packages.
+
+
 
 ## Requirements
 
 - `python-kibana`: Python library for interacting with Elasticsearch.
+> This module requires the `python-kibana` Python library to be installed.
 
 ## Author
 
