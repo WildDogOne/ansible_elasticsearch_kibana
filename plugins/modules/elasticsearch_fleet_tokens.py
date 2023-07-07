@@ -81,8 +81,8 @@ def main():
     kb_url = module.params["kb_url"]
     kb_user = module.params["kb_user"]
     kb_pass = module.params["kb_pass"]
-    token_type = module.params["token_name"]
-    agent_policy_name = module.params["token_version"]
+    token_type = module.params["token_type"]
+    agent_policy_name = module.params["agent_policy_name"]
     tls_verify = module.params["tls_verify"]
 
     if tls_verify == False:
