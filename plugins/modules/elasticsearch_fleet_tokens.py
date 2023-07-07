@@ -96,7 +96,7 @@ def main():
         if token_type == "service_token":
             service_token = kb.get_service_token()
             module.exit_json(changed=False, msg=f"Token generated", token=service_token)
-        if token_type == "service_token":
+        if token_type == "enrolment_key" and agent_policy_name:
             enrollment_key = kb.get_enrollment_key(agent_policy_name=agent_policy_name)
             if enrollment_key:
                 module.exit_json(
