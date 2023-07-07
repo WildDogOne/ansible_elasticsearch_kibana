@@ -95,10 +95,10 @@ def main():
     if state == "get":
         if token_type == "service_token":
             service_token = kb.get_service_token()
-            module.exit_json(changed=False, msg=f'Token: "{service_token}"')
+            module.exit_json(changed=False, msg=f'Token: "{service_token}"', token=service_token)
         if token_type == "service_token" and agent_policy_name is not None:
-            service_token = kb.get_enrollment_key(agent_policy_name=agent_policy_name)
-            module.exit_json(changed=False, msg=f'Token: "{service_token}"')
+            enrollment_key = kb.get_enrollment_key(agent_policy_name=agent_policy_name)
+            module.exit_json(changed=False, msg=f'Token: "{enrollment_key}"', token=enrollment_key)
         else:
             module.fail_json(
                 msg="No agent policy name specified. Please specify an agent policy name."
