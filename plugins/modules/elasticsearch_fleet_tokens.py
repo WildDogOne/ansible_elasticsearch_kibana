@@ -96,20 +96,21 @@ def main():
         if token_type == "service_token":
             service_token = kb.get_service_token()
             module.exit_json(changed=False, msg=f"Token generated", token=service_token)
-        if token_type == "enrolment_key" and agent_policy_name:
-            enrollment_key = kb.get_enrollment_key(agent_policy_name=agent_policy_name)
-            if enrollment_key:
-                module.exit_json(
-                    changed=False, msg=f"Enrolment key found", token=enrollment_key
-                )
-            else:
-                module.fail_json(
-                    msg="Enrolment key not found. Please check the agent policy name."
-                )
-        else:
-            module.fail_json(
-                msg="No agent policy name specified. Please specify an agent policy name."
-            )
+        if token_type == "enrolment_key":
+          if agent_policy_name:
+              enrollment_key = kb.get_enrollment_key(agent_policy_name=agent_policy_name)
+              if enrollment_key:
+                  module.exit_json(
+                      changed=False, msg=f"Enrolment key found", token=enrollment_key
+                  )
+              else:
+                  module.fail_json(
+                      msg="Enrolment key not found. Please check the agent policy name."
+                  )
+          else:
+              module.fail_json(
+                  msg="No agent policy name specified. Please specify an agent policy name."
+              )
     module.fail_json(msg="No state specified. Please specify a state.")
 
 
