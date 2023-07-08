@@ -149,8 +149,8 @@ def main():
                     "hosts": output_hosts,
                     "output_name": output_name,
                 }
-                if type:
-                    payload["output_type"] = output_type
+                if output_type:
+                    payload["type"] = output_type
                 if output_id:
                     payload["output_id"] = output_id
                 if is_default is not None:
@@ -187,7 +187,9 @@ def main():
             else:
                 payload = {"output_name":output_name}
                 if output_type:
-                    payload["output_type"] = output_type
+                    payload["type"] = output_type
+                if output_hosts:
+                    payload["hosts"] = output_type
                 if is_default is not None:
                     payload["is_default"] = is_default
                 if is_default_monitoring is not None:
