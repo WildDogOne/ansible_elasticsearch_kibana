@@ -189,7 +189,7 @@ def main():
                 if output_type:
                     payload["type"] = output_type
                 if output_hosts:
-                    payload["hosts"] = output_type
+                    payload["hosts"] = output_hosts
                 if is_default is not None:
                     payload["is_default"] = is_default
                 if is_default_monitoring is not None:
