@@ -146,10 +146,10 @@ def main():
                 )
             else:
                 payload = {
-                    "output_hosts": output_hosts,
+                    "hosts": output_hosts,
                     "output_name": output_name,
                 }
-                if output_type:
+                if type:
                     payload["output_type"] = output_type
                 if output_id:
                     payload["output_id"] = output_id
