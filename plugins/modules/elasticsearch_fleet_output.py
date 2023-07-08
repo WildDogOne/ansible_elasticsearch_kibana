@@ -140,7 +140,7 @@ def main():
 
     if state == "present":
         if output_name and output_hosts:
-            if kb.get_fleet_output(output_name=output_name):
+            if kb.get_fleet_output(output_name):
                 module.exit_json(
                     changed=False, msg=f"Output {output_name} already exists"
                 )
@@ -168,7 +168,7 @@ def main():
 
     if state == "absent":
         if output_name:
-            if not kb.get_fleet_output(output_name=output_name):
+            if not kb.get_fleet_output(output_name):
                 module.exit_json(
                     changed=False, msg=f"Output {output_name} doesn't exist"
                 )
@@ -180,7 +180,7 @@ def main():
 
     if state == "update":
         if output_name:
-            if not kb.get_fleet_output(output_name=output_name):
+            if not kb.get_fleet_output(output_name):
                 module.fail_json(
                     changed=False, msg=f"Output {output_name} doesn't exist"
                 )
