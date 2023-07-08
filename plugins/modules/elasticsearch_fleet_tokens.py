@@ -98,10 +98,10 @@ def main():
             module.exit_json(changed=False, msg=f"Token generated", token=service_token)
         if token_type == "enrolment_key":
           if agent_policy_name:
-              enrollment_key = kb.get_enrollment_key(agent_policy_name=agent_policy_name)
-              if enrollment_key:
+              enrolment_key = kb.get_enrolment_key(agent_policy_name=agent_policy_name)
+              if enrolment_key:
                   module.exit_json(
-                      changed=False, msg=f"Enrolment key found", token=enrollment_key
+                      changed=False, msg=f"Enrolment key found", token=enrolment_key
                   )
               else:
                   module.fail_json(
