@@ -185,7 +185,7 @@ def main():
                     changed=False, msg=f"Output {output_name} doesn't exist"
                 )
             else:
-                payload = {"output_name":output_name}
+                payload = {"output_name": output_name}
                 if output_type:
                     payload["type"] = output_type
                 if output_hosts:
@@ -198,8 +198,10 @@ def main():
                     payload["ca_trusted_fingerprint"] = ca_trusted_fingerprint
                 if config_yaml:
                     payload["config_yaml"] = config_yaml
-                kb.update_fleet_output(**payload)
-                module.exit_json(changed=True, msg=f"Output {output_name} Updated")
+                x = kb.update_fleet_output(**payload)
+                module.exit_json(
+                    changed=True, msg=f"Output {output_name} Updated", output=x
+                )
         else:
             module.fail_json(msg="No Output Name Specified.")
 
