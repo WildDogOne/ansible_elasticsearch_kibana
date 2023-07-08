@@ -99,7 +99,6 @@ requirements:
 
 def main():
     module_args = dict(
-        state=dict(type="str", choices=["get"], required=True),
         kb_url=dict(type="str", required=True),
         kb_user=dict(type="str", required=True),
         kb_pass=dict(type="str", required=True, no_log=True),
@@ -131,7 +130,6 @@ def main():
     is_default_monitoring = module.params["is_default_monitoring"]
     ca_trusted_fingerprint = module.params["ca_trusted_fingerprint"]
     config_yaml = module.params["config_yaml"]
-    tls_verify = module.params["tls_verify"]
 
     if tls_verify == False:
         kb = kibana(
