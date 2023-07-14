@@ -95,7 +95,7 @@ def main():
     if state == "absent":
         ids = []
         status = kb.get_prebuilt_rules_status()
-        if status["rules_custom_installed"] > 0:
+        if status["rules_installed"] > 0:
           rules = kb.get_all_rules()
           for x in rules:
               if len(ids) > 90:
