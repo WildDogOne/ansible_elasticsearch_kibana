@@ -9,8 +9,7 @@ module: elasticsearch_fleet_package
 short_description: Install Elastic Security Prebuilt Rules
 description:
     - This module allows you to manage Prebuilt Rules.
-    - It can create/enable, or check status of Prebuilt Rules.
-    - It is not possible to remove prebuilt rules. Once installed, always installed
+    - It can create/enable/delete, or check status of Prebuilt Rules.
 
 author: Linus
 
@@ -18,7 +17,7 @@ options:
   state:
     description:
       - Specifies whether the Prebuild rules should be installed/enabled. Or if you want to check the status of the rules.
-    choices: ['present', 'status', 'enabled']
+    choices: ['present', 'status', 'enabled', 'absent']
     required: true
 
   kb_url:
@@ -53,7 +52,7 @@ requirements:
 
 def main():
     module_args = dict(
-        state=dict(type="str", choices=["present", "status", "enabled"], required=True),
+        state=dict(type="str", choices=["present", "status", "enabled", "absent"], required=True),
         kb_url=dict(type="str", required=True),
         kb_user=dict(type="str", required=True),
         kb_pass=dict(type="str", required=True, no_log=True),
@@ -76,8 +75,12 @@ def main():
         kb = kibana(base_url=kb_url, username=kb_user, password=kb_pass)
 
     if state == "present":
-        kb.load_prebuilt_rules()
-        module.exit_json(changed=True, msg=f"Prebuild Rules installed successfully.")
+        status = kb.get_prebuilt_rules_status()
+        if status["rules_not_installed"] > 0 or status["timelines_installed"] > 0:
+          kb.load_prebuilt_rules()
+          module.exit_json(changed=True, msg=f"Prebuild Rules installed successfully.")
+        else:
+          module.exit_json(changed=False, msg=f"Prebuild Rules already installed.")
     if state == "enabled":
         ids = []
         rules = kb.get_all_rules()
@@ -89,6 +92,21 @@ def main():
               ids.append(x['id'])
         kb.bulk_change_rules(rule_ids=ids)
         module.exit_json(changed=True, msg=f"Prebuild Rules enabled successfully.")
+    if state == "absent":
+        ids = []
+        status = kb.get_prebuilt_rules_status()
+        if status["rules_custom_installed"] > 0:
+          rules = kb.get_all_rules()
+          for x in rules:
+              if len(ids) > 90:
+                  kb.bulk_change_rules(rule_ids=ids, action="delete")
+                  ids = []
+              if x["created_by"] == "elastic":
+                ids.append(x['id'])
+          kb.bulk_change_rules(rule_ids=ids, action="delete")
+          module.exit_json(changed=True, msg=f"Prebuild Rules removed successfully.")
+        else:
+          module.exit_json(changed=False, msg=f"Prebuild Rules already removed.")
     elif state == "status":  # if state is absent, delete the dataview
         status = kb.get_prebuilt_rules_status()
         module.exit_json(changed=True, msg=f"Prebuild Rules Status", status=status)
