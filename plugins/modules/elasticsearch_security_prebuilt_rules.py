@@ -85,7 +85,8 @@ def main():
             if len(ids) > 90:
                 kb.bulk_change_rules(rule_ids=ids)
                 ids = []
-            ids.append(x['id'])
+            if x["created_by"] == "elastic":
+              ids.append(x['id'])
         kb.bulk_change_rules(rule_ids=ids)
         module.exit_json(changed=True, msg=f"Prebuild Rules enabled successfully.")
     elif state == "status":  # if state is absent, delete the dataview
