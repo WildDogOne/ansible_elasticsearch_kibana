@@ -80,7 +80,7 @@ def main():
 
     if state == "present":
         status = kb.get_prebuilt_rules_status()
-        if status["rules_not_installed"] > 0 or status["timelines_not_installed"] > 0:
+        if status["rules_not_installed"] > 0 or status["timelines_not_installed"] > 0 or status["rules_not_updated"] > 0 or status["timelines_not_updated"] > 0:
             kb.load_prebuilt_rules()
             module.exit_json(
                 changed=True, msg=f"Prebuild Rules installed successfully."
