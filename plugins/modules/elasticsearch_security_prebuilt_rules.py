@@ -9,7 +9,7 @@ module: elasticsearch_fleet_package
 short_description: Install Elastic Security Prebuilt Rules
 description:
     - This module allows you to manage Prebuilt Rules.
-    - It can create, or check status of Prebuilt Rules.
+    - It can create/enable, or check status of Prebuilt Rules.
     - It is not possible to remove prebuilt rules. Once installed, always installed
 
 author: Linus
@@ -17,8 +17,8 @@ author: Linus
 options:
   state:
     description:
-      - Specifies whether the Prebuild rules should be installed. Or if you want to check the status of the rules.
-    choices: ['present', 'status']
+      - Specifies whether the Prebuild rules should be installed/enabled. Or if you want to check the status of the rules.
+    choices: ['present', 'status', 'enabled']
     required: true
 
   kb_url:
@@ -53,7 +53,7 @@ requirements:
 
 def main():
     module_args = dict(
-        state=dict(type="str", choices=["present", "status"], required=True),
+        state=dict(type="str", choices=["present", "status", "enabled"], required=True),
         kb_url=dict(type="str", required=True),
         kb_user=dict(type="str", required=True),
         kb_pass=dict(type="str", required=True, no_log=True),
@@ -78,6 +78,16 @@ def main():
     if state == "present":
         kb.load_prebuilt_rules()
         module.exit_json(changed=True, msg=f"Prebuild Rules installed successfully.")
+    if state == "enabled":
+        ids = []
+        rules = kb.get_all_rules()
+        for x in rules:
+            if len(ids) > 90:
+                kb.bulk_change_rules(rule_ids=ids)
+                ids = []
+            ids.append(x['id'])
+        kb.bulk_change_rules(rule_ids=ids)
+        module.exit_json(changed=True, msg=f"Prebuild Rules enabled successfully.")
     elif state == "status":  # if state is absent, delete the dataview
         status = kb.get_prebuilt_rules_status()
         module.exit_json(changed=True, msg=f"Prebuild Rules Status", status=status)

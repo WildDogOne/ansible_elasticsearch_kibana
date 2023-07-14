@@ -1,6 +1,6 @@
 namespace: WildDogOne
 name: elasticsearch_kibana
-version: 1.0.5
+version: 1.0.6
 readme: README.md
 description: Collection for managing Elasticsearch security.
 license: NONE
