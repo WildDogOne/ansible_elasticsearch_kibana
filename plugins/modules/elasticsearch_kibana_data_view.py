@@ -115,7 +115,7 @@ def main():
                     "title": dv_title,
                     "timeFieldName": dv_timeFieldName,
                 }
-                kb.create_dataview(dataview=pattern_json)
+                kb.create_dataview(**pattern_json)
                 module.exit_json(
                     changed=True, msg=f"Dataview {dv_name} updated successfully."
                 )
@@ -130,7 +130,7 @@ def main():
                 "title": dv_title,
                 "timeFieldName": dv_timeFieldName,
             }
-            kb.create_dataview(dataview=pattern_json)
+            kb.create_dataview(**pattern_json)
             module.exit_json(
                 changed=True, msg=f"Dataview {dv_name} created successfully."
             )
