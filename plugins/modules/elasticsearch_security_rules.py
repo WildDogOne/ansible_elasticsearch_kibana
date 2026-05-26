@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 
 from ansible.module_utils.basic import AnsibleModule
 from kibana.kibana import kibana
